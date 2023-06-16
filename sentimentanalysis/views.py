@@ -14,6 +14,7 @@ model = SetFitModel.from_pretrained("StatsGary/setfit-ft-sentinent-eval")
 
 @api_view(['POST'])
 def analyze_sentiment(request):
+    # Check if the request has a text field
     try:
         text = request.data.get('text')
 
@@ -33,12 +34,13 @@ def analyze_sentiment(request):
             return Response({
                 'sentiment': sentiment,
             })
-
+        # If the request does not have a text field, return an error
         return Response({
             'error': 'Invalid request payload. "text" field is missing.'
         }, status=400)
 
     except Exception as e:
+        # If an error occurs, return an error
         return Response({
             'error': 'An error occurred while analyzing sentiment.'
         }, status=500)
